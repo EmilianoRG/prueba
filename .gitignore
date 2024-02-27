@@ -1,0 +1,41 @@
+# composer files
+composer.phar
+composer.lock
+
+# IDE files
+/.vscode/
+/.idea/
+/.buildpath/
+/.project/
+/.settings/
+/nbproject/
+
+# phpunit files
+phpunit.phar
+phpunit.xml
+
+# system files
+Thumbs.db
+.DS_Store
+
+# others default
+/.vagrant/
+
+# yii files
+/runtime/
+/tests/
+/vagrant/
+/vendor/
+/config/db.php
+
+# custom project files
+/web/*
+!/web/assets/
+/web/assets/*
+!/web/css/
+!/web/favicon.ico
+!/web/index.php
+!/web/index-test.php
+!/web/robots.txt
+.env
+/index.php
