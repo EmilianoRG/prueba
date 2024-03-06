@@ -22,6 +22,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= GridView::widget([
   'dataProvider' => $dataProvider,
   'filterModel' => $searchModel,
+  'id' => 'clientes-gridview',
+  'responsive' => true,
+  'hover' => true,
+  'pjax' => true,
+  'pjaxSettings' => [
+    'neverTimeout' => true,
+    'options' => ['id' => "clientes-gridview-pjax"]
+  ],
   'columns' => [
     'nombre',
     'apellido_paterno',
@@ -65,5 +73,5 @@ $this->params['breadcrumbs'][] = $this->title;
         return Html::tag('div', implode('', $buttons), ['class' => 'buttons']);
       }
     ]
-  ],
+  ]
 ]); ?>
