@@ -1,18 +1,69 @@
 <?php
-use app\models\cliente\Cliente;
-use yii\bootstrap5\Html;
-use yii\web\View;
 
-/** @var View $this */
-/** @var Cliente[] $clientes */
+use app\models\cliente\Cliente;
+use kartik\grid\GridView;
+use kartik\helpers\Html;
+
+/** @var yii\web\View $this */
+/** @var app\models\cliente\ClienteSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Clientes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>Clientes</h1>
-<?= Html::a('Nuevo Cliente', ['clientes/create'], ['class' => 'btn btn-primary']) ?>
-<ul class="list-group" style="margin-bottom: 16px;">
-  <?php foreach ($clientes as $cliente): ?>
-    <li class="list-group-item"><?= $cliente->getNombreCompleto() ?></li>
-  <?php endforeach; ?>
-</ul>
+<h1><?= Html::encode($this->title) ?></h1>
+
+<p>
+  <?= Html::a('Nuevo Cliente', ['create'], ['class' => 'btn btn-success']) ?>
+</p>
+
+<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+<?= GridView::widget([
+  'dataProvider' => $dataProvider,
+  'filterModel' => $searchModel,
+  'columns' => [
+    'nombre',
+    'apellido_paterno',
+    'apellido_materno',
+    'correo',
+    'edad',
+    //'domicilio:ntext',
+    //'status',
+    [
+      'format' => 'raw',
+      'content' => function (Cliente $cliente) {
+        $buttons = [
+          Html::a(
+            '<i class="fa-solid fa-magnifying-glass"></i>',
+            ['clientes/view', 'id' => $cliente->id],
+            [
+              'class' => 'btn btn-primary',
+              'data-pjax' => 0
+            ]
+          ),
+          Html::a(
+            Html::icon('pencil', [], 'fas fa-'),
+            ['clientes/update', 'id' => $cliente->id],
+            [
+              'class' => 'btn btn-dark',
+              'data-pjax' => 0
+            ]
+          ),
+          Html::a(
+            Html::icon('trash', [], 'fas fa-'),
+            ['clientes/delete', 'id' => $cliente->id],
+            [
+              'class' => 'btn btn-danger',
+              'data' => [
+                'method' => 'post',
+                'confirm' => '¿Desea eliminar este registro?'
+              ]
+            ]
+          )
+        ];
+        return Html::tag('div', implode('', $buttons), ['class' => 'buttons']);
+      }
+    ]
+  ],
+]); ?>

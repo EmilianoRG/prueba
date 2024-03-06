@@ -13,7 +13,15 @@ $config = [
     '@bower' => '@vendor/bower-asset',
     '@npm' => '@vendor/npm-asset',
   ],
+  'modules' => [
+    'gridview' =>  [
+      'class' => '\kartik\grid\Module'
+    ]
+  ],
   'components' => [
+    'assetManager' => [
+      'appendTimestamp' => true
+    ],
     'request' => [
       // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
       'cookieValidationKey' => 'ORFu46n7ui1EKltXeCDX8_1_UTq9CLlR',

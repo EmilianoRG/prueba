@@ -1,44 +1,83 @@
 <?php
+
 namespace app\models\cliente;
 
-use yii\db\ActiveRecord;
+use Yii;
 
 /**
+ * This is the model class for table "clientes".
+ *
  * @property int $id
  * @property string $nombre
  * @property string $apellido_paterno
  * @property string $apellido_materno
  * @property string $correo
  * @property int $edad
- * @property string $domicilio
+ * @property string|null $domicilio
  * @property int $status
+ *
+ * @property Ordenes[] $ordenes
+ * @property Telefonos[] $telefonos
  */
-class Cliente extends ActiveRecord {
-  public static function tableName(): string {
+class Cliente extends \yii\db\ActiveRecord {
+  /**
+   * {@inheritdoc}
+   */
+  public static function tableName() {
     return 'clientes';
   }
 
-  public function rules(): array {
+  /**
+   * {@inheritdoc}
+   */
+  public function rules() {
     return [
-      [['nombre', 'apellido_paterno', 'apellido_materno', 'edad', 'correo'], 'required'],
-      [['nombre', 'apellido_paterno', 'apellido_materno', 'correo', 'domicilio'], 'string', 'max' => 50],
-      [['correo'], 'email'],
-      [['edad'], 'integer', 'min' => 18],
-      [['status'], 'boolean', 'trueValue' => true, 'falseValue' => false]
+      [['nombre', 'apellido_paterno', 'apellido_materno', 'correo', 'edad'], 'required'],
+      [['edad', 'status'], 'integer'],
+      [['domicilio'], 'string'],
+      [['nombre', 'apellido_paterno', 'apellido_materno', 'correo'], 'string', 'max' => 50],
     ];
   }
 
-  public function attributeLabels(): array {
+  /**
+   * {@inheritdoc}
+   */
+  public function attributeLabels() {
     return [
       'id' => 'ID',
-      'nombre' => 'Nombre Completo',
+      'nombre' => 'Nombre',
       'apellido_paterno' => 'Apellido Paterno',
       'apellido_materno' => 'Apellido Materno',
-      'edad' => 'Edad',
       'correo' => 'Correo',
+      'edad' => 'Edad',
       'domicilio' => 'Domicilio',
-      'status' => 'Status'
+      'status' => 'Status',
     ];
+  }
+
+  /**
+   * Gets query for [[Ordenes]].
+   *
+   * @return \yii\db\ActiveQuery
+   */
+  public function getOrdenes() {
+    return $this->hasMany(Ordenes::class, ['cliente_id' => 'id']);
+  }
+
+  /**
+   * Gets query for [[Telefonos]].
+   *
+   * @return \yii\db\ActiveQuery
+   */
+  public function getTelefonos() {
+    return $this->hasMany(Telefonos::class, ['cliente_id' => 'id']);
+  }
+
+  public function ajustarCampos() {
+    $this->nombre = mb_strtoupper(trim($this->nombre), 'utf-8');
+    $this->apellido_paterno = mb_strtoupper(trim($this->apellido_paterno), 'utf-8');
+    $this->apellido_materno = mb_strtoupper(trim($this->apellido_materno), 'utf-8');
+    $this->domicilio = mb_strtoupper(trim($this->domicilio), 'utf-8');
   }
 
   public function getNombreCompleto(): string {

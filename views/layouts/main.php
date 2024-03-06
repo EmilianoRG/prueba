@@ -40,11 +40,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
   echo Nav::widget([
     'options' => ['class' => 'navbar-nav'],
     'items' => [
-      ['label' => 'Home', 'url' => ['/site/index']],
-      ['label' => 'About', 'url' => ['/site/about']],
-      ['label' => 'Contact', 'url' => ['/site/contact']],
-      ['label' => 'Formulario', 'url' => ['/site/formulario']],
+      ['label' => 'Inicio', 'url' => ['/site/index']],
+//      ['label' => 'About', 'url' => ['/site/about']],
+//      ['label' => 'Contact', 'url' => ['/site/contact']],
+//      ['label' => 'Formulario', 'url' => ['/site/formulario']],
       ['label' => 'Clientes', 'url' => ['/clientes/index']],
+      ['label' => 'Servicios', 'url' => ['/servicios/index']],
+      ['label' => 'Órdenes', 'url' => ['/ordenes/index']],
       Yii::$app->user->isGuest
         ? ['label' => 'Login', 'url' => ['/site/login']]
         : '<li class="nav-item">'
@@ -84,6 +86,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
   </div>
 </footer>
 
+<script src="https://kit.fontawesome.com/3ffd08a32c.js" crossorigin="anonymous"></script>
 <?php $this->endBody() ?>
 </body>
 </html>
