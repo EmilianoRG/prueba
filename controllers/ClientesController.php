@@ -3,6 +3,7 @@ namespace app\controllers;
 
 use app\models\cliente\Cliente;
 use app\models\cliente\ClienteSearch;
+use app\models\telefono\TelefonoSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
@@ -46,8 +47,13 @@ class ClientesController extends Controller {
   }
 
   public function actionView($id) {
+    $model = $this->findModel($id);
+    $searchModel = new TelefonoSearch();
+    $dataProvider = $searchModel->search($model->id, $this->request->queryParams);
     return $this->render('view', [
-      'model' => $this->findModel($id),
+      'model' => $model,
+      'searchModel' => $searchModel,
+      'dataProvider' => $dataProvider,
     ]);
   }
 
