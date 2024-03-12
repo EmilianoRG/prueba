@@ -32,6 +32,50 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 <header id="header">
   <?php
+  $items = [
+    ['label' => 'Inicio', 'url' => ['site/index']]
+  ];
+  if (Yii::$app->user->isGuest) { // no ha iniciado sesion
+    $items = array_merge($items, [
+//      ['label' => 'About', 'url' => ['/site/about']],
+//      ['label' => 'Contact', 'url' => ['/site/contact']],
+//      ['label' => 'Formulario', 'url' => ['/site/formulario']],
+      ['label' => 'Iniciar Sesión', 'url' => ['site/login']]
+    ]);
+  } else {
+    $logoutItem = '<li class="nav-item">'
+      . Html::beginForm(['site/logout'])
+      . Html::submitButton(
+        'Cerrar Sesión',
+        ['class' => 'nav-link btn btn-link logout']
+      )
+      . Html::endForm()
+      . '</li>';
+    $items = array_merge($items, [
+      [
+        'label' => 'Clientes',
+        'url' => ['clientes/index'],
+        'visible' => Yii::$app->user->can('VENTAS')
+      ],
+      [
+        'label' => 'Órdenes',
+        'url' => ['ordenes/index'],
+        'visible' => Yii::$app->user->can('VENTAS')
+      ],
+      [
+        'label' => 'Servicios',
+        'url' => ['servicios/index'],
+        'visible' => Yii::$app->user->can('ADMINISTRADOR')
+      ],
+      [
+        'label' => 'Usuarios',
+        'url' => ['usuarios/index'],
+        'visible' => Yii::$app->user->can('ADMINISTRADOR')
+      ],
+      $logoutItem
+    ]);
+  }
+
   NavBar::begin([
     'brandLabel' => Yii::$app->name,
     'brandUrl' => Yii::$app->homeUrl,
@@ -39,25 +83,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
   ]);
   echo Nav::widget([
     'options' => ['class' => 'navbar-nav'],
-    'items' => [
-      ['label' => 'Inicio', 'url' => ['/site/index']],
-//      ['label' => 'About', 'url' => ['/site/about']],
-//      ['label' => 'Contact', 'url' => ['/site/contact']],
-//      ['label' => 'Formulario', 'url' => ['/site/formulario']],
-      ['label' => 'Clientes', 'url' => ['/clientes/index']],
-      ['label' => 'Servicios', 'url' => ['/servicios/index']],
-      ['label' => 'Órdenes', 'url' => ['/ordenes/index']],
-      Yii::$app->user->isGuest
-        ? ['label' => 'Login', 'url' => ['/site/login']]
-        : '<li class="nav-item">'
-        . Html::beginForm(['/site/logout'])
-        . Html::submitButton(
-          'Logout (' . Yii::$app->user->identity->username . ')',
-          ['class' => 'nav-link btn btn-link logout']
-        )
-        . Html::endForm()
-        . '</li>'
-    ]
+    'items' => $items
   ]);
   NavBar::end();
   ?>

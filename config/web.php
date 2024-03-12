@@ -30,17 +30,40 @@ $config = [
       'class' => 'yii\caching\FileCache',
     ],
     'user' => [
-      'identityClass' => 'app\models\User',
+      'identityClass' => 'app\models\usuario\Usuario',
       'enableAutoLogin' => true,
+    ],
+    'authManager' => [
+      'class' => 'yii\rbac\DbManager',
     ],
     'errorHandler' => [
       'errorAction' => 'site/error',
     ],
+//    'mailer' => [
+//      'class' => 'yii\symfonymailer\Mailer',
+//      'viewPath' => '@app/mail',
+//      'useFileTransport' => false,
+//      'transport' => [
+////        'dsn' => 'smtps://webmaster@chefonline.com.mx:3!C0r2sis!M4st3r4@mail.chefonline.com.mx:587',
+//        'scheme' => 'smtps',
+//        'host' => 'mail.chefonline.com.mx',
+//        'username' => 'webmaster@chefonline.com.mx',
+//        'password' => '3!C0r2sis!M4st3r4',
+//        'port' => 587,
+//        'dsn' => 'native://default',
+//      ]
+//    ],
     'mailer' => [
-      'class' => \yii\symfonymailer\Mailer::class,
-      'viewPath' => '@app/mail',
-      // send all mails to a file by default.
-      'useFileTransport' => true,
+      'class' => 'yii\swiftmailer\Mailer',
+      'useFileTransport' => false,
+      'transport' => [
+        'class' => 'Swift_SmtpTransport',
+        'host' => 'mail.chefonline.com.mx',
+        'username' => 'webmaster@chefonline.com.mx',
+        'password' => '3!C0r2sis!M4st3r4',
+        'port' => '587',
+//        'encryption' => 'tls',
+      ]
     ],
     'log' => [
       'traceLevel' => YII_DEBUG ? 3 : 0,

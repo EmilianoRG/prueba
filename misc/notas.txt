@@ -1,0 +1,22 @@
+## LIBRERIAS UTILES
+
+composer require kartik-v/yii2-mpdf: "*"
+composer require --prefer-dist yiisoft/yii2-swiftmailer
+composer require ramsey/uuid "*"
+
+## QUERIES PARA USUARIO
+
+CREATE TABLE `prueba`.`usuarios` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(64) NOT NULL,
+  `usuario` VARCHAR(64) NOT NULL,
+  `password` VARCHAR(64) NOT NULL,
+  `rol` VARCHAR(64) NOT NULL,
+  `status` TINYINT(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`));
+
+## RBAC (Permisos)
+### MAS INFO: https://www.yiiframework.com/doc/guide/2.0/en/security-authorization
+
+php yii migrate --migrationPath=@yii/rbac/migrations
+php yii console/init
